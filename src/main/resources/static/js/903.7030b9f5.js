@@ -1,0 +1,2 @@
+"use strict";(self["webpackChunkhappyhouse"]=self["webpackChunkhappyhouse"]||[]).push([[903],{1903:(e,t,s)=>{s.r(t),s.d(t,{default:()=>i});var a=function(){var e=this,t=e.$createElement,s=e._self._c||t;return s("b-container",{staticClass:"bv-example-row mt-3 text-center"},[s("h3",{staticClass:"underline-blue",staticStyle:{"font-weight":"bolder"}},[e._v("공지사항")]),s("router-view")],1)},n=[];const l={name:"NoticeView"},r=l;var c=s(1001),u=(0,c.Z)(r,a,n,!1,null,"b31dc8ea",null);const i=u.exports}}]);
+//# sourceMappingURL=903.7030b9f5.js.map

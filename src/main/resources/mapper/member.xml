@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.happyhouse.model.mapper.MemberMapper">
+
+	<select id="idCheck" parameterType="string" resultType="int">
+		select count(id)
+		from user
+		where id = #{id}
+	</select>
+
+	<insert id="registerMember" parameterType="MemberDto">
+		insert into user (id, password, name, email, address)
+		values (#{id}, #{password}, #{name}, #{email}, #{address})
+	</insert>
+
+	<!-- <select id="login" parameterType="map" resultType="MemberDto">
+		select name, id, email, address, password
+		from user
+		where id = #{id} and password = #{password}
+	</select> -->
+	
+	<select id="login" parameterType="memberDto" resultType="memberDto">
+		select name, id, email, role
+		from user
+		where id = #{id} and password = #{password}
+	</select>
+	
+	<select id="userInfo" parameterType="String" resultType="memberDto">
+		select name, id, email, password, address, role
+		from user
+		where id = #{id}
+	</select>
+	
+	<select id="listMember" resultType="memberDto">
+		select id, password, name, email, address, role
+		from user
+		order by id asc;
+	</select>
+	
+	<select id="getMember" parameterType="String" resultType="memberdto">
+		select id, password, name, email, address, role
+		from user
+		where id = #{id}
+	</select>
+	
+	<update id="updateMember" parameterType="MemberDto">
+		update user
+		<trim prefix="set" suffixOverrides=",">
+			<if test="password != null">password = #{password},</if>
+			<if test="email != null">email = #{email},</if>
+			<if test="address != null">address = #{address},</if>
+			<if test="name != null">name = #{name},</if>
+			<if test="role != null">role = #{role},</if>
+		</trim>
+		where id = #{id}
+	</update>
+	
+	<delete id="deleteMember" parameterType="String">
+		delete from user
+		where id = #{id}
+	</delete>
+	
+	
+	<select id="searchPassword" parameterType="MemberDto" resultType="String">
+		select password
+		from user
+		where id = #{id} and name = #{name} and email = #{email}
+	</select>
+	
+</mapper>

@@ -1,0 +1,2 @@
+"use strict";(self["webpackChunkhappyhouse"]=self["webpackChunkhappyhouse"]||[]).push([[755],{38755:(e,t,s)=>{s.r(t),s.d(t,{default:()=>u});var n=function(){var e=this,t=e.$createElement,s=e._self._c||t;return s("b-container",{staticClass:"bv-example-row mt-3 text-center"},[s("h3",{staticClass:"underline-steelblue"},[s("b-icon",{attrs:{icon:"person-lines-fill"}}),e._v(" Member Service ")],1),s("router-view")],1)},r=[];const a={name:"MemberView"},l=a;var c=s(1001),i=(0,c.Z)(l,n,r,!1,null,"6a5f7f86",null);const u=i.exports}}]);
+//# sourceMappingURL=755.733f3d33.js.map

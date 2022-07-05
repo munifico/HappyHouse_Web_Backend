@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.happyhouse.model.mapper.HouseFavorMapper">
+
+	<!-- 전체 인기 매물 조회 -->
+	<select id="getPopularList" resultType="houseInfoDto">
+		select h.aptCode, h.aptName, h.buildyear, h.dongCode, h.dongName, h.jibun, h.lat, h.lng, h.img, si.sidoname, gu.gugunname,
+				(select dealAmount from housedeal where aptCode = h.aptCode and no = (select max(no) from housedeal where aptCode = h.aptCode)) recentPrice
+		from houseinfo h
+		left join sidocode si
+		on left(h.dongcode,2) = left(si.sidocode,2)
+		left join guguncode gu
+		on left(h.dongcode,5) = left(gu.guguncode,5)
+		left join dongcode do
+		on left(h.dongcode,8) = left(do.dongcode,8)
+		left join housefavor hf
+		on h.aptCode = hf.aptCode
+        order by hf.favorList desc, h.aptCode asc
+        limit 3
+	</select>
+	
+
+	<!-- 로그인 유저가 찜한 매물 아파트코드 조회 -->
+	<select id="getFavor" parameterType="String" resultType="int">
+		select aptCode
+		from housefavor
+		where userid=#{userid}
+	</select>
+	
+	<!-- 로그인 유저가 찜한 매물 조회 -->
+	<select id="getFavorList" parameterType="String" resultType="houseInfoDto">
+		select h.aptCode, h.aptName, h.buildyear, h.dongCode, h.dongName, h.jibun, h.lat, h.lng, si.sidoname, gu.gugunname,
+				(select dealAmount from housedeal where aptCode = h.aptCode and no = (select max(no) from housedeal where aptCode = h.aptCode)) recentPrice, count(case when h.aptCode=f.aptCode then 1 end) as favorList
+		from houseinfo h
+		left join sidocode si
+		on left(h.dongcode,2) = left(si.sidocode,2)
+		left join guguncode gu
+		on left(h.dongcode,5) = left(gu.guguncode,5)
+		left join dongcode do
+		on left(h.dongcode,8) = left(do.dongcode,8)
+		left join housefavor f
+        on h.aptCode = f.aptCode
+        where h.aptCode in (select aptCode from housefavor where userid = (select id from user where id=#{userid}))
+		group by h.aptCode, si.sidoName, gu.gugunName
+        order by h.aptCode
+	</select>
+	
+	<!-- 관심 지역 등록 -->
+	<insert id="insertFavor" parameterType="houseFavor">
+		insert into housefavor(
+			userid, aptCode, favorList
+		) values (
+			#{userid}, #{aptCode}, 1
+		)
+	</insert>
+	
+	<!-- 관심 지역 해제 -->
+	<delete id="deleteFavor" parameterType="houseFavor">
+		delete 
+		from housefavor 
+		where userid = #{userid}
+		and aptCode = #{aptCode}
+	</delete>
+</mapper>
+
